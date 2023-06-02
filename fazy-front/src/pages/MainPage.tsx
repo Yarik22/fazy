@@ -32,9 +32,15 @@ function MainPage() {
             console.error(error);
           });
       }
-    
+  
 
-      const [photos, setPhotos] = useState<Array<string>>([]);
+      const [photos, setPhotos] = useState<Array<string>>([])
+      const [photo, setPhoto] = useState<string>("src/assets/fazy-logo.png");
+
+
+      useEffect(() => {
+        setPhoto(photo);
+      }, []);
 
       useEffect(() => {
         fetchPhotos();
@@ -64,8 +70,8 @@ function MainPage() {
     display={"flex"}
     justifyContent={"space-around"}
     flexWrap={"wrap"}>
-      <ImageComponent defaultImage={"src/assets/fazy-logo.png"} id={1}/>
-      <ImageComponent defaultImage={"src/assets/fazy-logo.png"} id={2}/>
+      <ImageComponent defaultImage={photo} id={1}/>
+      <ImageComponent defaultImage={photo} id={2}/>
       <Box alignSelf={"center"} width={"200px"} marginBottom={"20px"}>
       <Button variant="contained" color="success" type="submit" fullWidth>
                     Fazy
@@ -76,11 +82,10 @@ function MainPage() {
     </form>
     <ScrollableContainer>
       {photos.map((val,i)=>{
-        return <ScrollBarImage defaultImage={"src/assets/fazy-logo.png"} photo={val} key={i}/>
+        return <ScrollBarImage defaultImage={"src/assets/fazy-logo.png"} photo={val} key={i} fetchPhotos={fetchPhotos}/>
       })}
-    <AddImage onUploadSuccess={function (): void {
-          console.info("Image is uploaded")
-        } } onUploadError={function (): void {
+    <AddImage onUploadSuccess={fetchPhotos} 
+    onUploadError={function (): void {
           console.error("Image is not uploaded")
         } }/>
     </ScrollableContainer>

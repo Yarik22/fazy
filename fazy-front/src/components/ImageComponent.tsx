@@ -9,8 +9,9 @@ interface ImageComponentProps {
 
 const ImageComponent: React.FC<ImageComponentProps> = ({ defaultImage, id}) => {
   const [image, setImage] = useState<string>(defaultImage);
-
+  
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value)
     const file = event.target.files?.[0];
     const reader = new FileReader();
 
