@@ -7,13 +7,14 @@ import ScrollBarImage from "../components/ScrollBarImage";
 import AddImage from "../components/AddImageProps";
 
 function MainPage() {
+      const [result, setResult] = useState<string>("src/assets/fazy-logo.png");
       const handleSwapFaces = (event: React.FormEvent<HTMLFormElement>) =>{
         event.preventDefault()
         const currentFormData = new FormData(event.currentTarget)
         const formData = new FormData()
-        if(currentFormData.get('file1')&&currentFormData.get('file2')){
-          formData.append('files',currentFormData.get('file1') as File)
-          formData.append('files',currentFormData.get('file2') as File)
+        if (currentFormData.get('file1') && currentFormData.get('file2')) {
+          formData.append('files', currentFormData.get('file1') as File)
+          formData.append('files', currentFormData.get('file2') as File)
         }
         console.log(currentFormData.get('file1'))
         console.log(currentFormData.get('file2'))
@@ -27,6 +28,13 @@ function MainPage() {
             } else {
               throw new Error('Upload failed');
             }
+            return response.json();
+          })
+          .then(data => {
+            // Process the retrieved data
+            console.log('!!!!')
+            console.log(data);
+            setResult(`http://localhost:3000/images/swap/${data[0]}`)
           })
           .catch((error) => {
             console.error(error);
@@ -77,12 +85,12 @@ function MainPage() {
                     Fazy
       </Button>
       </Box>
-      <ResultImageComponent defaultImage={"src/assets/fazy-logo.png"}/>
+      <ResultImageComponent defaultImage={result}/>
     </Box>
     </form>
     <ScrollableContainer>
       {photos.map((val,i)=>{
-        return <ScrollBarImage defaultImage={"src/assets/fazy-logo.png"} photo={val} key={i} fetchPhotos={fetchPhotos}/>
+        return <ScrollBarImage defaultImage={"src/assets/fazy-logo.png"} photo={val} key={i} fetchPhotos={fetchPhotos} />
       })}
     <AddImage onUploadSuccess={fetchPhotos} 
     onUploadError={function (): void {

@@ -5,7 +5,11 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "assets": [
-      "pictures"
+      "temp/",
+      "python/",
+      "swapped_face/",
+      "pictures/"
     ]
   }
 }
+
