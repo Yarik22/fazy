@@ -6,13 +6,13 @@
 
 # Add cmake to enviroment
 
-# pip install opencv-python
+```bash
+pip install opencv-python
+pip install cmake
+pip install dlib
+```
 
-# pip install cmake
-
-# pip install dlib
-
-# npm install and use it on localhost:5173
+# Install dependencies and use it on localhost:5173
 
 ![Fazy](examples/example3.jpg)
 
