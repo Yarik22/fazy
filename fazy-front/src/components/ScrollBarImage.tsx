@@ -1,45 +1,50 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { render } from 'react-dom';
+import React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 interface ImageComponentProps {
   defaultImage: string;
-  photo: string
-  fetchPhotos:Function
+  photo: string;
+  fetchPhotos: Function;
 }
 
-const ScrollBarImage: React.FC<ImageComponentProps> = ({ defaultImage, photo, fetchPhotos }) => {
-
-  const deleteImage = (photoName:string) =>{
-    fetch(`http://localhost:3000/images/${photoName}`,{
-      method:"DELETE"
+const ScrollBarImage: React.FC<ImageComponentProps> = ({
+  defaultImage,
+  photo,
+  fetchPhotos,
+}) => {
+  const deleteImage = (photoName: string) => {
+    fetch(`http://localhost:3000/images/${photoName}`, {
+      method: "DELETE",
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to fetch data from the backend API.');
-      }
-      fetchPhotos()
-      return response;
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-  }
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch data from the backend API.");
+        }
+        fetchPhotos();
+        return response;
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
   const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
     const container = event.currentTarget;
     container.scrollLeft += event.deltaY;
   };
 
-  const handleDownload = async(photoName: string) => {
+  const handleDownload = async (photoName: string) => {
     try {
       // Make a GET request to the backend endpoint that serves the file
-      const response = await fetch(`http://localhost:3000/images/${photoName}`, {
-        method: 'GET',
-      });
+      const response = await fetch(
+        `http://localhost:3000/images/${photoName}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to download file.');
+        throw new Error("Failed to download file.");
       }
 
       // Retrieve the file data
@@ -49,7 +54,7 @@ const ScrollBarImage: React.FC<ImageComponentProps> = ({ defaultImage, photo, fe
       const url = window.URL.createObjectURL(fileData);
 
       // Create a link element
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
       link.download = `${photoName}`; // Set the desired file name
 
@@ -63,9 +68,9 @@ const ScrollBarImage: React.FC<ImageComponentProps> = ({ defaultImage, photo, fe
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error downloading file:', error);
+      console.error("Error downloading file:", error);
     }
-  }
+  };
 
   return (
     <Box
@@ -82,16 +87,40 @@ const ScrollBarImage: React.FC<ImageComponentProps> = ({ defaultImage, photo, fe
         height="300px"
         border="1px solid black"
         sx={{
-          backgroundImage: `url(http://localhost:3000/images/${photo||defaultImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundImage: `url(http://localhost:3000/images/${
+            photo || defaultImage
+          })`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       />
-      <Box margin={'20px 0'} width={"100%"} display={"flex"} flexDirection={"column"} gap={'20px'}>
-        <Button variant="contained" component="label" color="success" fullWidth onClick={()=>{handleDownload(photo)}}>
+      <Box
+        margin={"20px 0"}
+        width={"100%"}
+        display={"flex"}
+        flexDirection={"column"}
+        gap={"20px"}
+      >
+        <Button
+          variant="contained"
+          component="label"
+          color="success"
+          fullWidth
+          onClick={() => {
+            handleDownload(photo);
+          }}
+        >
           Download
         </Button>
-        <Button variant="contained" component="label" color="error" fullWidth onClick={()=>{deleteImage(photo)}}>
+        <Button
+          variant="contained"
+          component="label"
+          color="error"
+          fullWidth
+          onClick={() => {
+            deleteImage(photo);
+          }}
+        >
           Delete from storage
         </Button>
       </Box>

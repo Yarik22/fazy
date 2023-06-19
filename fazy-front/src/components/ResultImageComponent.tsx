@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 interface ResultImageComponentProps {
-    defaultImage: string;
+  defaultImage: string;
 }
 
-const ResultImageComponent: React.FC<ResultImageComponentProps> = ({ defaultImage }) => {
+const ResultImageComponent: React.FC<ResultImageComponentProps> = ({
+  defaultImage,
+}) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyUrl = () => {
@@ -26,11 +28,11 @@ const ResultImageComponent: React.FC<ResultImageComponentProps> = ({ defaultImag
           border="1px solid black"
           sx={{
             backgroundImage: `url(${defaultImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         ></Box>
-        <Box display={'flex'} width="300px" alignSelf="center" marginTop="20px">
+        <Box display={"flex"} width="300px" alignSelf="center" marginTop="20px">
           <TextField
             label="Image URL"
             value={defaultImage}
@@ -38,10 +40,14 @@ const ResultImageComponent: React.FC<ResultImageComponentProps> = ({ defaultImag
             fullWidth
             disabled
           />
-                <Button variant="contained" color="success" onClick={handleCopyUrl} fullWidth>
-                  {copied ? 'Copied!' : 'Copy URL'}
-                </Button>
-                
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleCopyUrl}
+            fullWidth
+          >
+            {copied ? "Copied!" : "Copy URL"}
+          </Button>
         </Box>
       </Box>
     </>
